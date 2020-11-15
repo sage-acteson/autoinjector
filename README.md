@@ -19,5 +19,7 @@
 - [ ] Combine components:
 	- [ ] If the fake heart rate is over a threshold set off the buzzer
 	- [ ] If the buzzer is going off and the button is pressed cancel the injection
+- [ ] Cleanup:
+	- [ ] Replace the array logic with a LinkedList
 - [ ] Housekeeping:
 	- [ ] Add a description to this repo
