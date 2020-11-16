@@ -4,8 +4,8 @@
 
 - [ ] Components:
 	- [ ] Buzzer
-		- [ ] Setup a basic sketch, buzzing
-		- [ ] Decide on active vs. passive
+		- [x] Setup a basic sketch, buzzing
+		- [x] Decide on active vs. passive [passive for now]
 		- [ ] Decide on the best frequency it the buzzer is inside the case
 	- [ ] Potentiometer
 		- [ ] Set up a basic sketch, analog read the values
