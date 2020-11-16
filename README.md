@@ -7,8 +7,8 @@
 		- [x] Setup a basic sketch, buzzing
 		- [x] Decide on active vs. passive [passive for now]
 		- [x] Decide on the best frequency it the buzzer is inside the case [maybe 1k, doesn't seem to matter]
-	- [ ] Rotary encoder
-		- [x] Set up a basic sketch, ~~analog~~ read the values
+	- [ ] Potentiometer
+		- [x] Set up a basic sketch, read the values
 		- [ ] Try reading in increases as a system interrupt
 	- [ ] Button
 		- [ ] Set up a basic sketch, digital read the input
