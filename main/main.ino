@@ -6,7 +6,7 @@ volatile bool state = false;
 void setup() {
   pinMode(buzzerPin, OUTPUT);
   pinMode(heartInterruptPin, INPUT_PULLUP);
-  attachInterrupt(digitalPinToInterrupt(heartInterruptPin), audioBlip, CHANGE);
+  attachInterrupt(digitalPinToInterrupt(heartInterruptPin), flip, RISING);
   Serial.begin (9600);
 }
 
@@ -21,7 +21,7 @@ void loop()
 
   if (state == true) {
     state = false;
-    audioWarning();
+    audioBlip();
   }
 
 //  BUZZER TEST
