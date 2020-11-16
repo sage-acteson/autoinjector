@@ -1,11 +1,14 @@
 const int buzzerPin = 3;
 const byte heartBeatPin = A4;
 const int heartInterruptPin = 2; // looks like this will work on the nano and feather?
+const int buttonInPin = 5;
 volatile bool state = false;
+int buttonState = 0;
 
 void setup() {
   pinMode(buzzerPin, OUTPUT);
   pinMode(heartInterruptPin, INPUT_PULLUP);
+  pinMode(buttonInPin, INPUT);
   attachInterrupt(digitalPinToInterrupt(heartInterruptPin), flip, RISING);
   Serial.begin (9600);
 }
@@ -19,14 +22,23 @@ void loop()
 //    // print out the value you read:
 //    Serial.println(voltage);
 
-  if (state == true) {
-    state = false;
-    audioBlip();
-  }
+//  STATE TEST w/ interrupt
+//  if (state == true) {
+//    state = false;
+//    audioBlip();
+//  }
 
 //  BUZZER TEST
 //  audioWarning();
 //  delay(1000);
+
+// BUTTON TEST
+  buttonState = digitalRead(buttonInPin);
+  if (buttonState == HIGH) {
+    audioBlip();
+  } else {
+    noTone(buzzerPin);
+  }
 }
 
 void audioWarning() {
