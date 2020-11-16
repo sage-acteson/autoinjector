@@ -14,7 +14,8 @@
 		- [x] Set up a basic sketch, digital read the input
 		- [x] Try the input as a system interrupt
 	- [ ] Servo
-		- [ ] Set up a basic sketch, just get it to turn
+		- [x] Set up a basic sketch, just get it to turn
+		- [ ] Set up a method to turn 90 degrees
 	- [ ] Detecting rapid change
 		- [ ] Decide on a structure for holding data
 		- [ ] Calculate the averages every cycle? (10sec & 2sec?)
