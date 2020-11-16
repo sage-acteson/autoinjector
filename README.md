@@ -7,12 +7,14 @@
 		- [x] Setup a basic sketch, buzzing
 		- [x] Decide on active vs. passive [passive for now]
 		- [x] Decide on the best frequency it the buzzer is inside the case [maybe 1k, doesn't seem to matter]
-	- [ ] Potentiometer
+	- [x] Potentiometer
 		- [x] Set up a basic sketch, read the values
-		- [ ] Try reading in increases as a system interrupt
-	- [ ] Button
-		- [ ] Set up a basic sketch, digital read the input
-		- [ ] Try the input as a system interrupt
+		- [x] Try reading in increases as a system interrupt
+	- [x] Button
+		- [x] Set up a basic sketch, digital read the input
+		- [x] Try the input as a system interrupt
+	- [ ] Servo
+		- [ ] Set up a basic sketch, just get it to turn
 	- [ ] Detecting rapid change
 		- [ ] Decide on a structure for holding data
 		- [ ] Calculate the averages every cycle? (10sec & 2sec?)
