@@ -1,15 +1,19 @@
 #include <Servo.h>
+
 // pin definitions
 const int buzzerPin = 5;
 const byte heartBeatPin = A4;
 const int heartInterruptPin = 2;
 const int buttonInPin = 3;
 const int servoPin = 9;
+
 // volatile vars for interrupts
 volatile bool heartRateState = false;
 volatile bool volButtonState = false;
+
 // global vars
 int buttonState = 0;
+
 // objects
 Servo servo;
 
@@ -21,6 +25,7 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(buttonInPin), flipVolButtonState, RISING);
   Serial.begin (9600);
   servo.attach(servoPin);
+  servo.write(0);
 }
 
 void loop()
@@ -51,27 +56,28 @@ void loop()
 //    noTone(buzzerPin);
 //  }
 // WITH STATE and INTERRUPTs
-//  if(volButtonState == true) {
-//    volButtonState = false;
-//    audioBlip();
-//  }
+  if(volButtonState == true) {
+    volButtonState = false;
+    audioBlip();
+    inject();
+  }
 
 // SERVO TEST
-  servo.write(0);
-  delay(500);
-  delay(1000);
-  servo.write(90);
-  delay(500);
-  delay(1000);
-  servo.write(180);
-  delay(500);
-  delay(1000);
-  servo.write(90);
-  delay(500);
-  delay(1000);
-  servo.write(0);
-  delay(500);
-  delay(1000);
+//  servo.write(0);
+//  delay(500);
+//  delay(1000);
+//  servo.write(90);
+//  delay(500);
+//  delay(1000);
+//  servo.write(180);
+//  delay(500);
+//  delay(1000);
+//  servo.write(90);
+//  delay(500);
+//  delay(1000);
+//  servo.write(0);
+//  delay(500);
+//  delay(1000);
 }
 
 void audioWarning() {
@@ -94,4 +100,8 @@ void flipHeartRateState() {
 
 void flipVolButtonState() {
   volButtonState = !volButtonState;
+}
+
+void inject() {
+  servo.write(90);
 }
