@@ -3,10 +3,10 @@
 ## TODO
 
 - [ ] Components:
-	- [ ] Buzzer
+	- [x] Buzzer
 		- [x] Setup a basic sketch, buzzing
 		- [x] Decide on active vs. passive [passive for now]
-		- [ ] Decide on the best frequency it the buzzer is inside the case
+		- [x] Decide on the best frequency it the buzzer is inside the case [maybe 1k, doesn't seem to matter]
 	- [ ] Potentiometer
 		- [ ] Set up a basic sketch, analog read the values
 		- [ ] Try reading in increases as a system interrupt
