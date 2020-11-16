@@ -1,15 +1,17 @@
-const int buzzerPin = 3;
+const int buzzerPin = 5;
 const byte heartBeatPin = A4;
 const int heartInterruptPin = 2; // looks like this will work on the nano and feather?
-const int buttonInPin = 5;
-volatile bool state = false;
+const int buttonInPin = 3;
+volatile bool heartRateState = false;
+volatile bool volButtonState = false;
 int buttonState = 0;
 
 void setup() {
   pinMode(buzzerPin, OUTPUT);
   pinMode(heartInterruptPin, INPUT_PULLUP);
-  pinMode(buttonInPin, INPUT);
-  attachInterrupt(digitalPinToInterrupt(heartInterruptPin), flip, RISING);
+  pinMode(buttonInPin, INPUT_PULLUP);
+  attachInterrupt(digitalPinToInterrupt(heartInterruptPin), flipHeartRateState, RISING);
+  attachInterrupt(digitalPinToInterrupt(buttonInPin), flipVolButtonState, RISING);
   Serial.begin (9600);
 }
 
@@ -23,21 +25,27 @@ void loop()
 //    Serial.println(voltage);
 
 //  STATE TEST w/ interrupt
-//  if (state == true) {
-//    state = false;
-//    audioBlip();
-//  }
+  if (heartRateState == true) {
+    heartRateState = false;
+    audioBlip();
+  }
 
 //  BUZZER TEST
 //  audioWarning();
 //  delay(1000);
 
 // BUTTON TEST
-  buttonState = digitalRead(buttonInPin);
-  if (buttonState == HIGH) {
+// BASIC
+//  buttonState = digitalRead(buttonInPin);
+//  if (buttonState == HIGH) {
+//    audioBlip();
+//  } else {
+//    noTone(buzzerPin);
+//  }
+// WITH STATE and INTERRUPTs
+  if(volButtonState == true) {
+    volButtonState = false;
     audioBlip();
-  } else {
-    noTone(buzzerPin);
   }
 }
 
@@ -55,6 +63,10 @@ void audioBlip() {
   tone(buzzerPin, 2000, 10);
 }
 
-void flip() {
-  state = !state;
+void flipHeartRateState() {
+  heartRateState = !heartRateState;
+}
+
+void flipVolButtonState() {
+  volButtonState = !volButtonState;
 }
