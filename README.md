@@ -19,9 +19,12 @@
 	- [x] Detecting rapid change
 		- [x] Decide on a structure for holding data [linked list is best, but array will be faster]
 		- [x] Calculate the averages every cycle? (10sec & 2sec?)
-- [ ] Combine components:
+- [x] Combine components:
 	- [x] If the fake heart rate is over a threshold set off the buzzer
-	- [ ] If the buzzer is going off and the button is pressed cancel the injection
+	- [x] If the buzzer is going off and the button is pressed cancel the injection
+- [ ] Button abort example:
+	- [x] Press button to activate -> wait 1 second -> press button to deactivate
+	- [ ] Press button to activate -> wait 2 seconds -> inject
 - [ ] Cleanup:
 	- [ ] Replace the array logic with a LinkedList
 	- [ ] Add handling for millis overflow at 50 days
