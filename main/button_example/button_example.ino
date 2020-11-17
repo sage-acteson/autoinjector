@@ -6,12 +6,16 @@ int currentButtonState = 0;
 int lastButtonState = 0;
 bool currentlyWarning = false;
 
+unsigned long injectionDelay = 2000;
+unsigned long warningStartTime = 0;
+
 void setup() {
   pinMode(buttonInPin, INPUT);
   pinMode(buzzerPin, OUTPUT);
 }
 
 void loop() {
+  // BUTTON
   currentButtonState = digitalRead(buttonInPin);
   // execute logice if the button state has changed
   if(currentButtonState != lastButtonState) {
@@ -23,7 +27,10 @@ void loop() {
   }
   lastButtonState = currentButtonState;
 
-  
+  // TIME
+  if(currentlyWarning && ((millis() - warningStartTime) > injectionDelay)) {
+    inject(); 
+  }
 }
 
 void handleButtonPress() {
@@ -36,7 +43,8 @@ void handleButtonPress() {
 
 void warnUser() {
   currentlyWarning = true;
-  tone(buzzerPin, 1000, 2000);
+  warningStartTime = millis();
+  tone(buzzerPin, 1000, int(injectionDelay));
 }
 
 void cancelInjection() {
@@ -45,5 +53,6 @@ void cancelInjection() {
 }
 
 void inject() {
-  
+  currentlyWarning = false;
+  tone(buzzerPin, 2000, 100);
 }
