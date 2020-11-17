@@ -11,6 +11,8 @@ unsigned long timeOfLastBeat = 0;
 float longAvg = 0; // the long and short term average heart rates
 float shortAvg = 0;
 
+unsigned long injectionDelay = 2000;
+
 void setup() {
   pinMode(buzzerPin, OUTPUT);
   pinMode(heartInterruptPin, INPUT_PULLUP);
@@ -26,6 +28,10 @@ void loop() {
     updateHeartData();
     calcNewAvgs();
     Serial.println("LONG: " + String(longAvg) + " SHORT: " + String(shortAvg));
+    if (longAvg >= shortAvg * 1.2) {
+      Serial.println(String("***REACTION STARTED***") + " Injection in " + String(injectionDelay) + " milliseconds");
+      buzzThenInject();
+    }
     delay(150);
     heartRateState = false;
   }
@@ -38,11 +44,11 @@ void notifyHeartBeat() {
 
 void updateHeartData() {
   unsigned long currentTime = millis();
-  int newBeatDuration = currentTime - timeOfLastBeat;
+  unsigned long newBeatDuration = currentTime - timeOfLastBeat;
   // this check is to prevent wild averages if the system is running and isn't connected for a while
   if (newBeatDuration < 10000) {
     rotateArray();
-    heartBeats[beatsToTrack - 1] = newBeatDuration;
+    heartBeats[beatsToTrack - 1] = int(newBeatDuration);
   }
   // TODO (if testing supports it) wipe the array if it has been too long since a heartbeat?
   timeOfLastBeat = currentTime;
@@ -69,6 +75,12 @@ float calcArrayAvg(int startIndex, int endIndex) {
     numIndexes++;
   }
   return (totalTime / numIndexes);
+}
+
+void buzzThenInject() {
+  tone(buzzerPin, 1000, injectionDelay);
+  delay(injectionDelay);
+  delay(20000);
 }
 
 void flipHeartRateState() {
