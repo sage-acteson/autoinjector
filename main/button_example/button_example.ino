@@ -1,6 +1,8 @@
+#include <Servo.h>
 
 const int buttonInPin = 3;
 const int buzzerPin = 5;
+const int servoPin = 6;
 
 int currentButtonState = 0;
 int lastButtonState = 0;
@@ -9,9 +11,13 @@ bool currentlyWarning = false;
 unsigned long injectionDelay = 2000;
 unsigned long warningStartTime = 0;
 
+Servo servo;
+
 void setup() {
   pinMode(buttonInPin, INPUT);
   pinMode(buzzerPin, OUTPUT);
+  servo.attach(servoPin);
+  servo.write(0);
 }
 
 void loop() {
@@ -54,5 +60,7 @@ void cancelInjection() {
 
 void inject() {
   currentlyWarning = false;
-  tone(buzzerPin, 2000, 100);
+  servo.write(90);
+  delay(1000);
+  servo.write(0);
 }
