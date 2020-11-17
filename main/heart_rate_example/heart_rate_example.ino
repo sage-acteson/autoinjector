@@ -1,5 +1,8 @@
-const int buzzerPin = 5;
+#include <Servo.h>
+
 const int heartInterruptPin = 2;
+const int buzzerPin = 5;
+const int servoPin = 6;
 
 volatile bool heartRateState = false;
 
@@ -13,6 +16,8 @@ float shortAvg = 0;
 
 unsigned long injectionDelay = 2000;
 
+Servo servo;
+
 void setup() {
   pinMode(buzzerPin, OUTPUT);
   pinMode(heartInterruptPin, INPUT_PULLUP);
@@ -20,6 +25,9 @@ void setup() {
   attachInterrupt(digitalPinToInterrupt(heartInterruptPin), flipHeartRateState, CHANGE);
 
   Serial.begin (9600);
+
+  servo.attach(servoPin);
+  servo.write(0);
 }
 
 void loop() {
@@ -80,6 +88,9 @@ float calcArrayAvg(int startIndex, int endIndex) {
 void buzzThenInject() {
   tone(buzzerPin, 1000, injectionDelay);
   delay(injectionDelay);
+  servo.write(90);
+  delay(1000);
+  servo.write(0);
   delay(20000);
 }
 
