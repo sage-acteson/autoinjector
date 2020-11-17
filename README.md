@@ -28,7 +28,7 @@
 - [ ] Heart rate example:
 	- [x] Show 'heartbeat'
 	- [x] Show rolling averages
-	- [ ] If the short term is too high, audio warning
+	- [x] If the short term is too high, audio warning
 	- [ ] Inject
 - [ ] Cleanup:
 	- [ ] Replace the array logic with a LinkedList
