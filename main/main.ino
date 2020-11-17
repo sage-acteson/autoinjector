@@ -105,8 +105,9 @@ void flipVolButtonState() {
 }
 
 void updateHeartData() {
-  int currentTime = millis();
-  int newBeatDuration = currentTime - timeOfLastBeat;
+  int currentTime = millis(); // TODO this should proabably be an unsigned long
+  int newBeatDuration = currentTime - timeOfLastBeat; // TODO this should also
+      // probably be an unsigned long, that is then analyzes and cast to an int for the array
   // this check is to prevent wild averages if the system is running and isn't connected for a while
   if (newBeatDuration < 10000) {
     rotateArray();
