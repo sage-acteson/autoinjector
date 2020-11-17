@@ -26,7 +26,7 @@
 	- [x] Press button to activate -> wait 1 second -> press button to deactivate
 	- [x] Press button to activate -> wait 2 seconds -> inject
 - [ ] Heart rate example:
-	- [ ] Show 'heartbeat'
+	- [x] Show 'heartbeat'
 	- [ ] Show rolling averages
 	- [ ] If the short term is too high, audio warning
 	- [ ] Inject
