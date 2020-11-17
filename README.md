@@ -25,6 +25,11 @@
 - [x] Button abort example:
 	- [x] Press button to activate -> wait 1 second -> press button to deactivate
 	- [x] Press button to activate -> wait 2 seconds -> inject
+- [ ] Heart rate example:
+	- [ ] Show 'heartbeat'
+	- [ ] Show rolling averages
+	- [ ] If the short term is too high, audio warning
+	- [ ] Inject
 - [ ] Cleanup:
 	- [ ] Replace the array logic with a LinkedList
 	- [ ] Add handling for millis overflow at 50 days
