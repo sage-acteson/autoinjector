@@ -4,7 +4,7 @@
 const int buzzerPin = 5;
 const int heartInterruptPin = 2;
 const int buttonInPin = 3;
-const int servoPin = 9;
+const int servoPin = 6;
 
 // other global constants
 const int injectionDelay = 2000; // the time between the start of the warning and start of injection in milliseconds
@@ -22,8 +22,8 @@ bool havingReaction = false;
 unsigned long timeReactionStarted = 0;
 
 // heart rate tracking
-const int beatsToTrack = 5;
-const int beatsForShortAvg = 2;
+const int beatsToTrack = 16;
+const int beatsForShortAvg = 6;
 int heartBeats[beatsToTrack]; // store the heart beats as time since the previous beat
 int timeOfLastBeat = 0;
 float longAvg = 0; // the long and short term average heart rates
@@ -35,7 +35,7 @@ void setup() {
   pinMode(heartInterruptPin, INPUT_PULLUP);
   pinMode(buttonInPin, INPUT_PULLUP);
   // set interrupts
-  attachInterrupt(digitalPinToInterrupt(heartInterruptPin), flipHeartRateState, RISING);
+  attachInterrupt(digitalPinToInterrupt(heartInterruptPin), flipHeartRateState, CHANGE);
   attachInterrupt(digitalPinToInterrupt(buttonInPin), flipVolButtonState, RISING);
   // activate serial TODO remove this
   Serial.begin (9600);
@@ -46,18 +46,27 @@ void setup() {
 
 void loop()
 {
-  //  STATE TEST w/ interrupt
-//    if (heartRateState == true) {
-//      heartRateState = false;
-//      updateHeartData();
-//      audioBlip();
-//      int i = 0;
-//      String toPrint = "";
-//      for( i = 0; i < beatsToTrack; i++) {
-//        toPrint += String(heartBeats[i]) + " ";
-//      }
-//      Serial.println(toPrint);
-//    }
+  //  handle heart rate stuff
+  if (heartRateState == true) {
+    updateHeartData();
+    audioBlip();
+    calcNewAvgs();
+    // check if a reaction is occuring
+    if(longAvg >= shortAvg * 1.2) {
+      havingReaction = true;
+      tone(buzzerPin, 1000, injectionDelay);
+    }
+    int i = 0;
+    String toPrint = "";
+    for ( i = 0; i < beatsToTrack; i++) {
+      toPrint += String(heartBeats[i]) + " ";
+    }
+    Serial.println(toPrint);
+//    Serial.println(timeOfLastBeat);
+    Serial.println("LONG: " + String(longAvg) + " SHORT: " + String(shortAvg));
+    delay(30);
+    heartRateState = false;
+  }
 
   // WITH STATE and INTERRUPTs
   if (volButtonState == true) {
@@ -72,7 +81,8 @@ void audioBlip() {
 }
 
 void flipHeartRateState() {
-  heartRateState = !heartRateState;
+//  heartRateState = !heartRateState;
+  heartRateState = true;
 }
 
 void flipVolButtonState() {
@@ -83,9 +93,9 @@ void updateHeartData() {
   int currentTime = millis();
   int newBeatDuration = currentTime - timeOfLastBeat;
   // this check is to prevent wild averages if the system is running and isn't connected for a while
-  if(newBeatDuration < 10000) {
+  if (newBeatDuration < 10000) {
     rotateArray();
-    heartBeats[beatsToTrack-1] = newBeatDuration;
+    heartBeats[beatsToTrack - 1] = newBeatDuration;
   }
   // TODO (if testing supports it) wipe the array if it has been too long since a heartbeat?
   timeOfLastBeat = currentTime;
@@ -93,15 +103,33 @@ void updateHeartData() {
 
 void rotateArray() {
   int i = 0;
-  for( i = 0; i < beatsToTrack -1; i++ ) {
-    heartBeats[i] = heartBeats[i+1];
+  for ( i = 0; i < beatsToTrack - 1; i++ ) {
+    heartBeats[i] = heartBeats[i + 1];
   }
+}
+
+void calcNewAvgs() {
+  longAvg = calcArrayAvg(0, beatsToTrack-beatsForShortAvg-1);
+  shortAvg = calcArrayAvg(beatsToTrack-beatsForShortAvg, beatsToTrack-1);
+}
+
+float calcArrayAvg(int startIndex, int endIndex) {
+  int i = 0;
+  int totalTime = 0;
+  int numIndexes = 0;
+  for(i = startIndex; i <= endIndex; i++) {
+    totalTime += heartBeats[i];
+    numIndexes++;
+  }
+  return (totalTime / numIndexes);
 }
 
 // Turn the servo to inject
 void inject() {
   servo.write(90);
   breakItDown();
+  delay(200);
+  servo.write(0);
 }
 
 void breakItDown() {
@@ -124,5 +152,4 @@ void breakItDown() {
   tone(buzzerPin, 349, 125); //F4
   delay(125);
   tone(buzzerPin, 392, 125); //G4
-  delay(10000);
 }
