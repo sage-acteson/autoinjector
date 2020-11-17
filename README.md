@@ -2,7 +2,7 @@
 
 ## TODO
 
-- [ ] Components:
+- [x] Components:
 	- [x] Buzzer
 		- [x] Setup a basic sketch, buzzing
 		- [x] Decide on active vs. passive [passive for now]
@@ -16,11 +16,11 @@
 	- [x] Servo
 		- [x] Set up a basic sketch, just get it to turn
 		- [x] Set up a method to turn 90 degrees
-	- [ ] Detecting rapid change
+	- [x] Detecting rapid change
 		- [x] Decide on a structure for holding data [linked list is best, but array will be faster]
-		- [ ] Calculate the averages every cycle? (10sec & 2sec?)
+		- [x] Calculate the averages every cycle? (10sec & 2sec?)
 - [ ] Combine components:
-	- [ ] If the fake heart rate is over a threshold set off the buzzer
+	- [x] If the fake heart rate is over a threshold set off the buzzer
 	- [ ] If the buzzer is going off and the button is pressed cancel the injection
 - [ ] Cleanup:
 	- [ ] Replace the array logic with a LinkedList
