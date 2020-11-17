@@ -14,11 +14,15 @@ void setup() {
 
 void loop() {
   if (heartRateState == true) {
-    heartRateState = false;
-    Serial.println("HEARTBEAT DETECTED");
-    tone(buzzerPin, 2000, 10);
+    notifyHeartBeat();
     delay(150);
+    heartRateState = false;
   }
+}
+
+void notifyHeartBeat() {
+  Serial.println("HEARTBEAT DETECTED");
+  tone(buzzerPin, 2000, 10);
 }
 
 void flipHeartRateState() {
